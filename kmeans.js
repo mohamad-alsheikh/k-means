@@ -1,10 +1,21 @@
-﻿
+﻿// import d3 from './d3.v3.min.js';
+var express = require('express');
+var app = express();
+var path = require('path');
+
+    app.use(express.static(path.join(__dirname, 'public')));
+
 function kMeans(elt, w, h, numPoints, numClusters, maxIter) {
+
 
     // the current iteration
     var iter = 1,
-        centroids = [],
-        points = [];
+        centroids =[ [ 2.85409686e+04, -1.37439423e+05],
+                     [ 8.99580000e+04, -1.39002821e+08],
+                     [ 1.38521715e+08, -3.22385130e+07],
+                     [ 1.00746241e+05, -9.75108870e+06],
+                     [ 3.05225000e+05, -5.07810573e+07] ],
+        points = d3.csv("./points.csv");
         
     var margin = {top: 30, right: 20, bottom: 20, left: 30},
         width = w - margin.left - margin.right,
@@ -56,7 +67,7 @@ function kMeans(elt, w, h, numPoints, numClusters, maxIter) {
         for (var i = 0; i < num; i++) {
             var color = colors[i];
             if (type !== "centroid") {
-                color = "#ccc";
+                color = "#ffffaa";
             }
             var point = getRandomPoint(type, color);
             point.id = point.type + "-" + i;
@@ -114,8 +125,10 @@ function kMeans(elt, w, h, numPoints, numClusters, maxIter) {
             // Compute the cluster centers
             var center = computeClusterCenter(cluster);
             // Move the centroid
-            d.x = center[0];
+            d.x = center[0];        
             d.y = center[1];
+            // d.x = [2.85409686e+04, 8.99580000e+04, 1.38521715e+08, 1.00746241e+05, 3.05225000e+05];              
+            // d.y = [-1.37439423e+05, -1.39002821e+08, -3.22385130e+07, -9.75108870e+06, -5.07810573e+07 ];
         });
     }
 
@@ -182,7 +195,7 @@ function kMeans(elt, w, h, numPoints, numClusters, maxIter) {
         
         // Initialize random points and centroids
         centroids = initializePoints(numClusters, "centroid");
-        points = initializePoints(numPoints, "point");
+        points = initializePoints(numPoints, "points" );
         
         // initial drawing
         update();
@@ -196,7 +209,11 @@ function kMeans(elt, w, h, numPoints, numClusters, maxIter) {
                 setText("Done");
             }
         }, 2 * 1000);
-    }
+    }[  [ 2.85409686e+04, -1.37439423e+05],
+        [ 8.99580000e+04, -1.39002821e+08],
+        [ 1.38521715e+08, -3.22385130e+07],
+        [ 1.00746241e+05, -9.75108870e+06],
+        [ 3.05225000e+05, -5.07810573e+07] ]
 
     // Call the main function
     initialize();
